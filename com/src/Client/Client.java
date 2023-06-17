@@ -2,6 +2,7 @@ package Client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Client {
@@ -14,9 +15,10 @@ public class Client {
     public Client( Socket socket, String userName ){
         try{
             this.socket = socket;
+            this.userName = userName;
             this.bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ));
             this.bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ));
-            this.userName = userName;
+
         } catch (IOException err){
             closeEveryThing( socket , bufferedReader, bufferedWriter );
         }
@@ -41,15 +43,16 @@ public class Client {
         }
     }
 
-    // critical point for explain because it's
+    // listen message from group
     public void listenForMessage(){
-        new Thread(() -> {
+        new Thread( () -> {
             String messageFromGroup;
 
             while ( socket.isConnected() ){
                 try {
                     messageFromGroup = bufferedReader.readLine();
-                    System.out.println(messageFromGroup);
+                    System.out.println(">>" + messageFromGroup);
+
                 } catch ( IOException err){
                     closeEveryThing( socket, bufferedReader, bufferedWriter );
                 }
@@ -75,7 +78,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite seu username for the chat ");
+        System.out.println("Digite seu Username para o chat ");
         String username = scanner.nextLine();
 
         // can take for the user

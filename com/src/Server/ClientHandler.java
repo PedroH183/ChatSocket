@@ -27,7 +27,7 @@ public class ClientHandler implements Runnable{
             this.bufferedReader = new BufferedReader( new InputStreamReader(socket.getInputStream()) );
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
-            broadCastMessage("Server " + clientUsername + " entrou no chat ");
+            broadCastMessage("# <Server> " + clientUsername + " entrou no chat #");
 
         } catch ( IOException err){
             closeEveryThing( socket, bufferedReader, bufferedWriter );
@@ -42,6 +42,7 @@ public class ClientHandler implements Runnable{
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readLine();
+                if(messageFromClient == null) throw new IOException();
                 broadCastMessage(messageFromClient);
             } catch (IOException err ){
                 closeEveryThing( socket, bufferedReader, bufferedWriter );
@@ -53,7 +54,7 @@ public class ClientHandler implements Runnable{
     public void broadCastMessage( String messageToSend ){
         for( ClientHandler clientHandler : clientHandlers ){
             try {
-                if(!clientHandler.clientUsername.equals(clientUsername)){
+                if( !clientHandler.clientUsername.equals(clientUsername) ){
                     clientHandler.bufferedWriter.write(messageToSend);
                     clientHandler.bufferedWriter.newLine(); // enter key
                     clientHandler.bufferedWriter.flush();
@@ -66,7 +67,7 @@ public class ClientHandler implements Runnable{
 
     public void removeClientHandler(){
         clientHandlers.remove(this);
-        broadCastMessage( "Server " + clientUsername + " foi de base" );
+        broadCastMessage( "### Server " + clientUsername + " foi de base ###");
     }
 
     public void closeEveryThing(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter){
