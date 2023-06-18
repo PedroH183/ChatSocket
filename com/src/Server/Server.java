@@ -15,14 +15,13 @@ public class Server {
     public void startServer(){
 
         try{
-            // espera pela conexão de algum client
             while( !serverSocket.isClosed() )
             {
+                // critical point method accept, explain !!
                 Socket socket = serverSocket.accept();
                 System.out.println("Um novo user entrou no chat");
                 // implementing interface runnable
                 ClientHandler clientHandler = new ClientHandler(socket);
-
                 Thread thread = new Thread(clientHandler);
                 thread.start();
             }
