@@ -20,7 +20,7 @@ public class Server {
                 // critical point method accept, explain !!
                 Socket socket = serverSocket.accept();
                 System.out.println("Um novo user entrou no chat");
-                // implementing interface runnable
+                // implementing interface runnable, instancia uma nova conexão
                 ClientHandler clientHandler = new ClientHandler(socket);
                 Thread thread = new Thread(clientHandler);
                 thread.start();

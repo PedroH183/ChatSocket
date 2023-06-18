@@ -1,5 +1,7 @@
 package Client;
 
+import Server.ClientHandler;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -17,7 +19,6 @@ public class Client {
             this.userName = userName;
             this.bufferedWriter = new BufferedWriter( new OutputStreamWriter( socket.getOutputStream() ));
             this.bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream() ));
-
         } catch (IOException err){
             closeEveryThing( socket , bufferedReader, bufferedWriter );
         }
@@ -51,8 +52,7 @@ public class Client {
                 try {
                     messageFromGroup = bufferedReader.readLine();
                     System.out.println(">>" + messageFromGroup);
-
-                } catch ( IOException err){
+                } catch ( Exception err){
                     closeEveryThing( socket, bufferedReader, bufferedWriter );
                 }
             }
@@ -86,6 +86,5 @@ public class Client {
         // separate threads !! has while infinite loops
         client.listenForMessage();
         client.sendMessage();
-
     }
 }
