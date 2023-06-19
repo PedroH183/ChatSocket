@@ -1,6 +1,6 @@
 package Client;
 
-import Server.ClientHandler;
+import ConsoleColors.ConsoleColors;
 
 import java.io.*;
 import java.net.Socket;
@@ -34,7 +34,8 @@ public class Client {
 
             while( socket.isConnected() ){
                 String messageToSend = scanner.nextLine();
-                bufferedWriter.write(userName + ": " + messageToSend );
+                messageToSend = ConsoleColors.MessageWColor(ConsoleColors.YELLOW, userName + ": ", messageToSend);
+                bufferedWriter.write( messageToSend );
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
@@ -51,7 +52,8 @@ public class Client {
             while ( socket.isConnected() ){
                 try {
                     messageFromGroup = bufferedReader.readLine();
-                    System.out.println(">>" + messageFromGroup);
+                    messageFromGroup = ConsoleColors.MessageWColor(ConsoleColors.YELLOW, ">> ", messageFromGroup);
+                    System.out.println(messageFromGroup);
                 } catch ( Exception err){
                     closeEveryThing( socket, bufferedReader, bufferedWriter );
                 }

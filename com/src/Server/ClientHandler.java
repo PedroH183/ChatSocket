@@ -1,5 +1,7 @@
 package Server;
 
+import ConsoleColors.ConsoleColors;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 public class ClientHandler implements Runnable {
 
     // essa classe é responsável por permitir mais de um user utilizando o server Socket
-    // broadcast message to multiple clients
+    // broadcast is a message to multiple clients
     private Socket socket;
     public  String clientUsername;
     private BufferedReader bufferedReader;
@@ -23,7 +25,7 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             // link do server com cada client é static
             connections.add(this);
-            broadCastMessage("<Server> " + clientUsername + " entrou no chat");
+            broadCastMessage( ConsoleColors.MessageWColor(ConsoleColors.CYAN, "<Server> ", ConsoleColors.RED + clientUsername + ConsoleColors.RESET + " entrou no chat") );
             listUsersOn();
         } catch ( IOException err){
             closeEveryThing( socket, bufferedReader, bufferedWriter );
@@ -66,7 +68,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void removeClientHandler(){
-        broadCastMessage( "### Server " + clientUsername + " saiu do chat ###");
+        broadCastMessage( ConsoleColors.MessageWColor(ConsoleColors.CYAN, "<Server> ", clientUsername + " saiu do chat") );
         connections.remove(this);
         closeEveryThing(this.socket, this.bufferedReader, this.bufferedWriter);
     }
@@ -87,19 +89,22 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    // mensagens não autenticadas
+    // mensagem não autenticadas
     private void listUsersOn() throws IOException{
         // listando os users Online
-        bufferedWriter.write("Listando Os Users Online !!");
+        String mssg = ConsoleColors.MessageWColor(ConsoleColors.BLUE, "Listando Os Users Online", "");
+        bufferedWriter.write(mssg);
         bufferedWriter.newLine(); // enter key
         bufferedWriter.flush();
 
         for ( ClientHandler client : ClientHandler.connections ){
-            bufferedWriter.write(client.clientUsername + " IS ON !!" );
+            mssg = ConsoleColors.MessageWColor(ConsoleColors.RED, client.clientUsername, " Is On !!");
+            bufferedWriter.write(mssg);
             bufferedWriter.newLine(); // enter key
             bufferedWriter.flush();
         }
-        bufferedWriter.write("###########################!!");
+        mssg = ConsoleColors.MessageWColor(ConsoleColors.BLUE, "####################", "");
+        bufferedWriter.write(mssg);
         bufferedWriter.newLine(); // enter key
         bufferedWriter.flush();
     }

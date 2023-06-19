@@ -1,5 +1,8 @@
 package Server;
 
+import ConsoleColors.ConsoleColors;
+
+import java.io.Console;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,7 +22,7 @@ public class Server {
             {
                 // critical point method accept, explain !!
                 Socket socket = serverSocket.accept();
-                System.out.println("Um novo user entrou no chat");
+                System.out.println(ConsoleColors.MessageWColor(ConsoleColors.YELLOW, "user", " entrou no chat"));
                 // implementing interface runnable, instancia uma nova conexão
                 ClientHandler clientHandler = new ClientHandler(socket);
                 Thread thread = new Thread(clientHandler);
