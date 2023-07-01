@@ -2,10 +2,9 @@ package Server;
 
 import ConsoleColors.ConsoleColors;
 
-import java.io.Console;
+import java.net.Socket;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 public class Server {
 

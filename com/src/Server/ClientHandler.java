@@ -47,7 +47,6 @@ public class ClientHandler implements Runnable {
                 return ;
             }
         }
-
     }
 
     // mensagens autenticadas
